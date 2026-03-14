@@ -1,24 +1,25 @@
-# VirtualDJ MCP Controller
+# VirtualDJ Skill Controller
 
-A lightweight **MCP (Model Context Protocol) server** that allows an AI agent to control **VirtualDJ** using MIDI commands.
+A lightweight Python skill that allows an AI agent (such as OpenClaw) to control **VirtualDJ** using MIDI commands.
 
-The server exposes simple tools such as:
+The skill exposes simple commands such as:
 
 - `play`
 - `pause`
 - `crossfade`
 - `echo`
+- `send-custom-cc`
 
-These tools send MIDI control messages to VirtualDJ through a **virtual MIDI port**, allowing AI assistants to automate mixing actions.
+These commands send **MIDI Control Change messages** to VirtualDJ through a **virtual MIDI port**, enabling AI-assisted DJ automation.
 
 ---
 
 # Architecture
 
 ```
-AI Agent (OpenClaw / MCP Client)
+AI Agent (OpenClaw)
         ↓
-MCP Server (this repo)
+Skill Runner (virtualdj_skill.py)
         ↓
 Python MIDI (mido + rtmidi)
         ↓
@@ -27,7 +28,7 @@ Virtual MIDI Port
 VirtualDJ
 ```
 
-The MCP server sends **MIDI Control Change messages** which VirtualDJ maps to actions.
+The skill sends **MIDI Control Change messages** which VirtualDJ maps to actions.
 
 ---
 
@@ -40,7 +41,6 @@ The MCP server sends **MIDI Control Change messages** which VirtualDJ maps to ac
 
 Dependencies used:
 
-- `fastmcp`
 - `mido`
 - `python-rtmidi`
 
@@ -59,7 +59,7 @@ cd virtualdj-mcp
 
 ## 2. Install Python (via uv)
 
-If you don't already have Python ≥3.10:
+If you do not already have Python ≥3.10:
 
 ```bash
 uv python install 3.11
@@ -71,7 +71,7 @@ uv python pin 3.11
 ## 3. Install dependencies
 
 ```bash
-uv add mido python-rtmidi fastmcp
+uv add mido python-rtmidi
 ```
 
 This creates:
@@ -92,7 +92,13 @@ pyproject.toml
 2. Select **Window → Show MIDI Studio**
 3. Double-click **IAC Driver**
 4. Enable **Device is online**
-5. Create a port (example: `IAC Driver Bus 1`)
+5. Create a port
+
+Example:
+
+```
+IAC Driver Bus 1
+```
 
 ---
 
@@ -129,97 +135,113 @@ CC3 → crossfader
 CC4 → effect_active 'echo'
 ```
 
-These correspond to the **control change messages** sent by the MCP server.
+These correspond to the control change messages sent by the skill.
 
 ---
 
-# Running the MCP Server
+# Running the Skill
 
-Run the server with uv:
+Run commands using uv:
 
 ```bash
-uv run python virtualdj_mcp.py
+uv run python virtualdj_skill.py <command>
 ```
 
-The MCP server will start and expose its tools to MCP-compatible clients.
+Examples:
+
+```
+uv run python virtualdj_skill.py play
+uv run python virtualdj_skill.py pause
+uv run python virtualdj_skill.py crossfade 64
+uv run python virtualdj_skill.py echo
+```
 
 ---
 
-# Using With OpenClaw
+# Environment Configuration
 
-Add the MCP server to your OpenClaw configuration.
+Set the MIDI port used by the skill:
 
-Example:
-
-```json
-{
-  "plugins": {
-    "mcp": {
-      "servers": {
-        "virtualdj": {
-          "command": "uv",
-          "args": ["run", "python", "virtualdj_mcp.py"],
-          "cwd": "/path/to/virtualdj-mcp",
-          "env": {
-            "VIRTUALDJ_MIDI_PORT": "IAC Driver Bus 1"
-          }
-        }
-      }
-    }
-  }
-}
+```bash
+export VIRTUALDJ_MIDI_PORT="IAC Driver Bus 1"
 ```
 
-Restart OpenClaw after updating the configuration.
+If this variable is not set, the default port used is:
+
+```
+IAC Driver Bus 1
+```
 
 ---
 
 # Testing MIDI Connectivity
 
-You can test MIDI devices with:
+You can list available MIDI outputs with:
 
 ```bash
-uv run python
+uv run python virtualdj_skill.py list-outputs
 ```
 
-Then run:
+Or test the configured port:
+
+```bash
+uv run python virtualdj_skill.py test-connection
+```
+
+You can also test manually:
 
 ```python
 import mido
 
-print("Inputs:", mido.get_input_names())
-print("Outputs:", mido.get_output_names())
+print(mido.get_output_names())
 ```
 
 Example output:
 
 ```
-Outputs:
 ['IAC Driver Bus 1']
 ```
 
-Ensure the name matches the port configured in your server.
+Ensure the name matches the configured MIDI port.
 
 ---
 
 # Example AI Commands
 
-Once connected, an AI agent could issue commands like:
+An AI assistant could issue commands like:
 
 ```
 Play the track
-Trigger echo
-Move the crossfader to the middle
-Pause deck one
+Pause the track
+Move the crossfader to the center
+Trigger echo effect
 ```
 
-These trigger MCP tools that send MIDI commands to VirtualDJ.
+These will call the skill and send MIDI commands to VirtualDJ.
+
+---
+
+# Repository Structure
+
+```
+virtualdj-mcp/
+│
+├── SKILL.md
+├── README.md
+├── virtualdj_skill.py
+├── test_midi.py
+│
+└── dj/
+    ├── __init__.py
+    ├── midi.py
+    └── commands.py
+```
 
 ---
 
 # Future Improvements
 
-Potential extensions:
+Possible extensions:
 
 - Track loading from local library
 - BPM detection and beat matching
@@ -229,6 +251,7 @@ Potential extensions:
 - Track energy analysis
 - Deck state awareness
 - MIDI controller learning
+- Integration with hardware DJ controllers
 
 ---
 

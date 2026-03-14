@@ -1,58 +1,184 @@
-# VirtualDJ MCP Skill
+---
+name: virtual-dj-skill
+description: This skill allows OpenClaw to control VirtualDJ by sending MIDI Control Change messages through a virtual MIDI port.
+metadata: {"clawdbot":{"emoji":"💿","requires":{"bins":["python"],"env":["VIRTUALDJ_MIDI_PORT"]},"primaryEnv":"VIRTUALDJ_MIDI_PORT"}}
+---
+
+# VirtualDJ Skill
 
 ## Purpose
 
-This skill helps control VirtualDJ locally through a Python MCP server that sends MIDI messages to a virtual MIDI port.
-
-It is intended for simple DJ actions such as:
+It can be used for simple DJ automation tasks such as:
 
 - play
 - pause
 - crossfade
 - echo
-- MIDI setup and testing
+- sending custom MIDI CC messages
+- listing available MIDI outputs
+- testing MIDI connectivity
 
-## What this skill does
+The skill runs locally and communicates with VirtualDJ through a virtual MIDI device.
 
-This skill provides a small MCP server that:
+---
 
-1. runs locally on the same machine as VirtualDJ
-2. opens a configured MIDI output port
-3. sends MIDI Control Change messages
-4. relies on VirtualDJ controller mappings to translate those messages into DJ actions
+## Requirements
 
-## When to use this skill
+- Python 3.10+
+- `uv` package manager
+- VirtualDJ installed
+- A configured virtual MIDI port
 
-Use this skill when the user wants to:
+Dependencies:
 
-- set up a local MCP server for VirtualDJ
-- control VirtualDJ with AI through OpenClaw
-- map a virtual MIDI device in VirtualDJ
-- test MIDI connectivity on macOS or Windows
-- add simple DJ controls before building more advanced features
+- mido
+- python-rtmidi
 
-## When not to use this skill
+Install dependencies:
 
-Do not use this skill when:
+```bash
+uv add mido python-rtmidi
+```
 
-- the user wants direct audio analysis from the skill itself
-- the user wants beatmatching based on live audio input
-- the user wants support for DJ software other than VirtualDJ without adapting the mappings
-- the user wants operating system automation outside the local Python script
+---
 
-## Assumptions
+## Environment
 
-- VirtualDJ is installed locally
-- Python is installed
-- the user can install Python packages
-- a virtual MIDI port is available
-- OpenClaw is configured to launch local MCP servers
+Set the MIDI port name using an environment variable:
 
-## Recommended project structure
+```bash
+export VIRTUALDJ_MIDI_PORT="IAC Driver Bus 1"
+```
 
-```text
-virtualdj-mcp/
-├── .venv
-├── virtualdj_mcp.py
-├── README.md
-└── SKILL.md
+If not set, the default port used is:
+
+```
+IAC Driver Bus 1
+```
+
+---
+
+## Files
+
+```
+virtualdj_skill.py   CLI entrypoint for the skill
+dj/midi.py           low-level MIDI helpers
+dj/commands.py       DJ command functions
+```
+
+---
+
+## Supported Commands
+
+### Healthcheck
+
+```bash
+uv run python virtualdj_skill.py healthcheck
+```
+
+Returns a confirmation that the skill is running.
+
+---
+
+### List MIDI outputs
+
+```bash
+uv run python virtualdj_skill.py list-outputs
+```
+
+Shows available MIDI output devices detected by Python.
+
+---
+
+### Test MIDI connection
+
+```bash
+uv run python virtualdj_skill.py test-connection
+```
+
+Attempts to open the configured MIDI port to verify connectivity.
+
+---
+
+### Play
+
+```bash
+uv run python virtualdj_skill.py play
+```
+
+Triggers the mapped play command.
+
+---
+
+### Pause
+
+```bash
+uv run python virtualdj_skill.py pause
+```
+
+Triggers the mapped pause command.
+
+---
+
+### Crossfade
+
+```bash
+uv run python virtualdj_skill.py crossfade 64
+```
+
+Sets the crossfader position from 0 to 127.
+
+Examples:
+
+```
+0   = full left
+64  = center
+127 = full right
+```
+
+---
+
+### Echo effect
+
+```bash
+uv run python virtualdj_skill.py echo
+```
+
+Triggers an echo effect mapped in VirtualDJ.
+
+---
+
+### Send custom MIDI control change
+
+```bash
+uv run python virtualdj_skill.py send-custom-cc 12 --value 127
+```
+
+Sends an arbitrary MIDI control change message.
+
+Useful for testing mappings before creating dedicated commands.
+
+---
+
+## Example VirtualDJ MIDI Mappings
+
+Inside VirtualDJ → Settings → Controllers, you can map incoming MIDI controls.
+
+Example mappings:
+
+```
+CC1 -> deck 1 play
+CC2 -> deck 1 pause
+CC3 -> crossfader
+CC4 -> effect_active 'echo'
+```
+
+These correspond to the commands implemented in the skill.
+
+---
+
+## Notes
+
+- MIDI values are clamped to the valid range of **0–127**.
+- The skill currently sends **MIDI Control Change messages only**.
+- Additional commands can be added easily in `dj/commands.py`.
