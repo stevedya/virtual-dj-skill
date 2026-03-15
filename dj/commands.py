@@ -179,3 +179,43 @@ def search_load(
     select_msg = search_select(query=query, result_index=result_index, app_name=app_name)
     load_msg = load_deck(deck)
     return f"{select_msg}; {load_msg}"
+
+
+def add_to_sidelist() -> str:
+    """
+    Add selected browser track to sidelist.
+
+    VirtualDJ mapping example:
+    BUTTON73 -> sidelist_add
+    """
+    return send_note(73)
+
+
+def add_to_automix() -> str:
+    """
+    Add selected browser track to automix list.
+
+    VirtualDJ mapping example:
+    BUTTON74 -> automix_add
+    """
+    return send_note(74)
+
+
+def start_automix() -> str:
+    """
+    Start/toggle automix.
+
+    VirtualDJ mapping example:
+    BUTTON75 -> automix
+    """
+    return send_note(75)
+
+
+def add_to_play_next() -> str:
+    """
+    Add selected browser track to play-next queue.
+
+    VirtualDJ mapping example:
+    BUTTON76 -> play_next
+    """
+    return send_note(76)
