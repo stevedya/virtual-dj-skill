@@ -311,6 +311,39 @@ Requires VirtualDJ mapping:
 0-BUTTON75 -> automix
 0-BUTTON76 -> mix_next
 ```
+
+### Recipe: Build a country dance queue (mix-next driven)
+
+Queue tracks to sidelist/queue first:
+
+```bash
+uv run python virtualdj_skill.py search-select "chattahoochee" --result 1
+uv run python virtualdj_skill.py add-to-sidelist
+uv run python virtualdj_skill.py search-select "boot scootin boogie" --result 1
+uv run python virtualdj_skill.py add-to-sidelist
+uv run python virtualdj_skill.py search-select "man i feel like a woman" --result 1
+uv run python virtualdj_skill.py add-to-sidelist
+uv run python virtualdj_skill.py search-select "copperhead road" --result 1
+uv run python virtualdj_skill.py add-to-sidelist
+uv run python virtualdj_skill.py search-select "save a horse ride a cowboy" --result 1
+uv run python virtualdj_skill.py add-to-sidelist
+uv run python virtualdj_skill.py search-select "watermelon crawl" --result 1
+uv run python virtualdj_skill.py add-to-sidelist
+```
+
+Start on deck 2, then use `mix-next` for clean deck-aware transitions:
+
+```bash
+uv run python virtualdj_skill.py search-load "chattahoochee" --deck 2 --result 1
+uv run python virtualdj_skill.py play-pause --deck 2
+uv run python virtualdj_skill.py crossfade-auto
+uv run python virtualdj_skill.py mix-next
+```
+
+Notes:
+- Prefer `mix-next` to trigger the next transition; it chooses the target deck automatically.
+- Use `automix-add-next` only if your mapping is confirmed not to alter current playback state.
+
 ---
 
 ## Example VirtualDJ MIDI Mappings
