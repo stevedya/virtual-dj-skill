@@ -21,6 +21,10 @@ It can be used for simple DJ automation tasks such as:
 - listing search matches from VirtualDJ database
 - selecting specific search result rows
 - loading selected result to deck 1 or 2
+- adding selected result to sidelist
+- adding selected result to automix
+- starting automix
+- adding selected result to play next
 - listing available MIDI outputs
 - testing MIDI connectivity
 
@@ -258,6 +262,26 @@ uv run python virtualdj_skill.py search-load "daft punk" --deck 1 --result 2
 
 ---
 
+### Queue actions
+
+```bash
+uv run python virtualdj_skill.py add-to-sidelist
+uv run python virtualdj_skill.py add-to-automix
+uv run python virtualdj_skill.py automix-start
+uv run python virtualdj_skill.py add-to-play-next
+```
+
+Requires VirtualDJ mapping:
+
+```
+0-BUTTON73 -> sidelist_add
+0-BUTTON74 -> automix_add
+0-BUTTON75 -> automix
+0-BUTTON76 -> play_next
+```
+
+---
+
 ## Example VirtualDJ MIDI Mappings
 
 Inside VirtualDJ → Settings → Controllers, you can map incoming MIDI controls.
@@ -272,6 +296,10 @@ Example mappings:
 0-BUTTON62 -> effect_active 'echo'
 0-BUTTON71 -> deck 1 load
 0-BUTTON72 -> deck 2 load
+0-BUTTON73 -> sidelist_add
+0-BUTTON74 -> automix_add
+0-BUTTON75 -> automix
+0-BUTTON76 -> play_next
 ```
 
 These correspond to the commands implemented in the skill.

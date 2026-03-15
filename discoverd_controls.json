@@ -20,6 +20,36 @@
       "type": "button",
       "suggested_action": "crossfader_auto"
     },
+    "0-BUTTON71": {
+      "source": "note_on 71",
+      "type": "button",
+      "suggested_action": "deck 1 load"
+    },
+    "0-BUTTON72": {
+      "source": "note_on 72",
+      "type": "button",
+      "suggested_action": "deck 2 load"
+    },
+    "0-BUTTON73": {
+      "source": "note_on 73",
+      "type": "button",
+      "suggested_action": "sidelist_add"
+    },
+    "0-BUTTON74": {
+      "source": "note_on 74",
+      "type": "button",
+      "suggested_action": "automix_add"
+    },
+    "0-BUTTON75": {
+      "source": "note_on 75",
+      "type": "button",
+      "suggested_action": "automix"
+    },
+    "0-BUTTON76": {
+      "source": "note_on 76",
+      "type": "button",
+      "suggested_action": "play_next"
+    },
     "0-SLIDER1": {
       "source": "cc 1",
       "type": "slider",
