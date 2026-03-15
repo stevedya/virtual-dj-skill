@@ -191,16 +191,6 @@ def add_to_sidelist() -> str:
     return send_note(73)
 
 
-def add_to_automix() -> str:
-    """
-    Add selected browser track to automix list.
-
-    VirtualDJ mapping example:
-    BUTTON74 -> automix_add
-    """
-    return send_note(74)
-
-
 def start_automix() -> str:
     """
     Start/toggle automix.
@@ -211,11 +201,11 @@ def start_automix() -> str:
     return send_note(75)
 
 
-def add_to_play_next() -> str:
+def add_to_automix_next() -> str:
     """
-    Add selected browser track to play-next queue.
+    Add selected browser track to automix next queue.
 
     VirtualDJ mapping example:
-    BUTTON76 -> play_next
+    BUTTON74 -> automix_add_next
     """
-    return send_note(76)
+    return send_note(74)

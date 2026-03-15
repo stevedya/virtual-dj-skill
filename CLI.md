@@ -292,7 +292,6 @@ uv run python virtualdj_skill.py add-to-sidelist
 Add selected track to automix:
 
 ```bash
-uv run python virtualdj_skill.py add-to-automix
 ```
 
 Start/toggle automix:
@@ -304,16 +303,16 @@ uv run python virtualdj_skill.py automix-start
 Add selected track to play next:
 
 ```bash
-uv run python virtualdj_skill.py add-to-play-next
+uv run python virtualdj_skill.py automix-add-next
 ```
 
 VirtualDJ mappings required:
 
 ```
 0-BUTTON73 -> sidelist_add
-0-BUTTON74 -> automix_add
+0-BUTTON74 -> automix_add_next
 0-BUTTON75 -> automix
-0-BUTTON76 -> play_next
+0-BUTTON76 -> unused (available)
 ```
 
 ---

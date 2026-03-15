@@ -2,8 +2,7 @@ import argparse
 import json
 
 from dj.commands import (
-    add_to_automix,
-    add_to_play_next,
+    add_to_automix_next,
     add_to_sidelist,
     crossfade,
     crossfade_auto,
@@ -36,9 +35,8 @@ def main() -> None:
     subparsers.add_parser("test-connection")
     subparsers.add_parser("echo")
     subparsers.add_parser("add-to-sidelist")
-    subparsers.add_parser("add-to-automix")
     subparsers.add_parser("automix-start")
-    subparsers.add_parser("add-to-play-next")
+    subparsers.add_parser("automix-add-next")
 
     play_pause_parser = subparsers.add_parser("play-pause")
     play_pause_parser.add_argument("--deck", type=int, required=True, choices=[1, 2])
@@ -121,12 +119,10 @@ def main() -> None:
         result = echo()
     elif args.command == "add-to-sidelist":
         result = add_to_sidelist()
-    elif args.command == "add-to-automix":
-        result = add_to_automix()
     elif args.command == "automix-start":
         result = start_automix()
-    elif args.command == "add-to-play-next":
-        result = add_to_play_next()
+    elif args.command == "automix-add-next":
+        result = add_to_automix_next()
     elif args.command == "send-custom-cc":
         result = send_custom_cc(args.control, args.value)
     elif args.command == "send-custom-note":

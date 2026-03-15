@@ -266,18 +266,17 @@ uv run python virtualdj_skill.py search-load "daft punk" --deck 1 --result 2
 
 ```bash
 uv run python virtualdj_skill.py add-to-sidelist
-uv run python virtualdj_skill.py add-to-automix
 uv run python virtualdj_skill.py automix-start
-uv run python virtualdj_skill.py add-to-play-next
+uv run python virtualdj_skill.py automix-add-next
 ```
 
 Requires VirtualDJ mapping:
 
 ```
 0-BUTTON73 -> sidelist_add
-0-BUTTON74 -> automix_add
+0-BUTTON74 -> automix_add_next
 0-BUTTON75 -> automix
-0-BUTTON76 -> play_next
+0-BUTTON76 -> unused (available)
 ```
 
 ---
@@ -297,9 +296,9 @@ Example mappings:
 0-BUTTON71 -> deck 1 load
 0-BUTTON72 -> deck 2 load
 0-BUTTON73 -> sidelist_add
-0-BUTTON74 -> automix_add
+0-BUTTON74 -> automix_add_next
 0-BUTTON75 -> automix
-0-BUTTON76 -> play_next
+0-BUTTON76 -> unused (available)
 ```
 
 These correspond to the commands implemented in the skill.
