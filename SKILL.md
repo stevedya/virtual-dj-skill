@@ -258,6 +258,40 @@ uv run python virtualdj_skill.py search-load "daft punk" --deck 1 --result 2
 
 ---
 
+## Multi-Step Mix Recipes
+
+Use these for predictable transition workflows.
+
+### Recipe: Search track, load to deck 2, play, auto-crossfade
+
+```bash
+uv run python virtualdj_skill.py search-load "nickelback someday" --deck 2 --result 1
+uv run python virtualdj_skill.py play-pause --deck 2
+uv run python virtualdj_skill.py crossfade-auto
+```
+
+One-line version:
+
+```bash
+uv run python virtualdj_skill.py search-load "nickelback someday" --deck 2 --result 1 && \
+uv run python virtualdj_skill.py play-pause --deck 2 && \
+uv run python virtualdj_skill.py crossfade-auto
+```
+
+### Recipe: Explicit step-by-step (without search-load helper)
+
+```bash
+uv run python virtualdj_skill.py search "nickelback someday"
+uv run python virtualdj_skill.py select-result 1
+uv run python virtualdj_skill.py load-deck --deck 2
+uv run python virtualdj_skill.py play-pause --deck 2
+uv run python virtualdj_skill.py crossfade-auto
+```
+
+Tip: `play-pause` is a toggle. If deck 2 is already playing, this command will pause it.
+
+---
+
 ## Example VirtualDJ MIDI Mappings
 
 Inside VirtualDJ → Settings → Controllers, you can map incoming MIDI controls.
