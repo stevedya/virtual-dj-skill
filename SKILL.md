@@ -18,6 +18,9 @@ It can be used for simple DJ automation tasks such as:
 - sending custom MIDI note messages
 - pinging key ranges for mapping discovery
 - searching library text (macOS keyboard automation)
+- listing search matches from VirtualDJ database
+- selecting specific search result rows
+- loading selected result to deck 1 or 2
 - listing available MIDI outputs
 - testing MIDI connectivity
 
@@ -211,6 +214,50 @@ uv run python virtualdj_skill.py search "drum and bass" --app "VirtualDJ"
 
 ---
 
+### List results
+
+```bash
+uv run python virtualdj_skill.py list-results "daft punk" --limit 10
+```
+
+Reads VirtualDJ `database.xml` and returns matching tracks.
+
+---
+
+### Select result row
+
+```bash
+uv run python virtualdj_skill.py select-result 3
+```
+
+Selects the 3rd result (1-based index) in the current browser list.
+
+---
+
+### Load selected result to deck
+
+```bash
+uv run python virtualdj_skill.py load-deck --deck 1
+uv run python virtualdj_skill.py load-deck --deck 2
+```
+
+Requires VirtualDJ mapping:
+
+```
+0-BUTTON71 -> deck 1 load
+0-BUTTON72 -> deck 2 load
+```
+
+---
+
+### Search and load in one command
+
+```bash
+uv run python virtualdj_skill.py search-load "daft punk" --deck 1 --result 2
+```
+
+---
+
 ## Example VirtualDJ MIDI Mappings
 
 Inside VirtualDJ → Settings → Controllers, you can map incoming MIDI controls.
@@ -223,6 +270,8 @@ Example mappings:
 0-SLIDER1 -> crossfader
 0-BUTTON63 -> crossfader_auto
 0-BUTTON62 -> effect_active 'echo'
+0-BUTTON71 -> deck 1 load
+0-BUTTON72 -> deck 2 load
 ```
 
 These correspond to the commands implemented in the skill.
@@ -234,6 +283,7 @@ These correspond to the commands implemented in the skill.
 - MIDI values are clamped to the valid range of **0–127**.
 - The skill sends **MIDI note** and **MIDI Control Change** messages.
 - `search` requires macOS Accessibility permissions for the terminal app.
+- `list-results` reads `~/Documents/VirtualDJ/database.xml` by default.
 - Additional commands can be added easily in `dj/commands.py`.
 
 # Mapping Notes

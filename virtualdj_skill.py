@@ -9,9 +9,14 @@ from dj.commands import (
     crossfade_right,
     deck_play_pause,
     echo,
+    list_results,
+    load_deck,
     ping_cc_range,
     ping_note_range,
     search_library,
+    search_load,
+    search_select,
+    select_result,
     send_custom_cc,
     send_custom_note,
 )
@@ -60,6 +65,30 @@ def main() -> None:
     search_parser.add_argument("--no-shortcut", action="store_true")
     search_parser.add_argument("--no-submit", action="store_true")
 
+    list_results_parser = subparsers.add_parser("list-results")
+    list_results_parser.add_argument("query", type=str)
+    list_results_parser.add_argument("--limit", type=int, default=10)
+    list_results_parser.add_argument("--database", type=str, default=None)
+
+    select_result_parser = subparsers.add_parser("select-result")
+    select_result_parser.add_argument("index", type=int)
+    select_result_parser.add_argument("--app", type=str, default="VirtualDJ")
+    select_result_parser.add_argument("--no-reset", action="store_true")
+
+    load_deck_parser = subparsers.add_parser("load-deck")
+    load_deck_parser.add_argument("--deck", type=int, required=True, choices=[1, 2])
+
+    search_select_parser = subparsers.add_parser("search-select")
+    search_select_parser.add_argument("query", type=str)
+    search_select_parser.add_argument("--result", type=int, default=1)
+    search_select_parser.add_argument("--app", type=str, default="VirtualDJ")
+
+    search_load_parser = subparsers.add_parser("search-load")
+    search_load_parser.add_argument("query", type=str)
+    search_load_parser.add_argument("--deck", type=int, required=True, choices=[1, 2])
+    search_load_parser.add_argument("--result", type=int, default=1)
+    search_load_parser.add_argument("--app", type=str, default="VirtualDJ")
+
     args = parser.parse_args()
 
     if args.command == "healthcheck":
@@ -96,6 +125,29 @@ def main() -> None:
             app_name=args.app,
             no_shortcut=args.no_shortcut,
             no_submit=args.no_submit,
+        )
+    elif args.command == "list-results":
+        result = list_results(args.query, limit=args.limit, database_xml=args.database)
+    elif args.command == "select-result":
+        result = select_result(
+            args.index,
+            app_name=args.app,
+            no_reset=args.no_reset,
+        )
+    elif args.command == "load-deck":
+        result = load_deck(args.deck)
+    elif args.command == "search-select":
+        result = search_select(
+            args.query,
+            result_index=args.result,
+            app_name=args.app,
+        )
+    elif args.command == "search-load":
+        result = search_load(
+            args.query,
+            deck=args.deck,
+            result_index=args.result,
+            app_name=args.app,
         )
     else:
         raise RuntimeError(f"Unknown command: {args.command}")

@@ -1,5 +1,6 @@
+from dj.keyboard import virtualdj_search, virtualdj_select_result
+from dj.library import list_library_results
 from dj.midi import send_cc, send_cc_test_range, send_note, send_note_test_range
-from dj.keyboard import virtualdj_search
 
 
 def deck_play_pause(deck: int) -> str:
@@ -108,3 +109,73 @@ def search_library(
         open_search_shortcut=not no_shortcut,
         submit=not no_submit,
     )
+
+
+def select_result(
+    result_index: int,
+    app_name: str = "VirtualDJ",
+    no_reset: bool = False,
+) -> str:
+    """
+    Move browser selection to a 1-based result index.
+    """
+    return virtualdj_select_result(
+        result_index=result_index,
+        app_name=app_name,
+        reset_to_top=not no_reset,
+    )
+
+
+def list_results(
+    query: str,
+    limit: int = 10,
+    database_xml: str | None = None,
+) -> list[dict[str, str]]:
+    """
+    List matching tracks from VirtualDJ database.xml.
+    """
+    return list_library_results(query=query, limit=limit, database_xml=database_xml)
+
+
+def load_deck(deck: int) -> str:
+    """
+    Load selected browser track to a deck.
+
+    VirtualDJ mapping example:
+    BUTTON71 -> deck 1 load
+    BUTTON72 -> deck 2 load
+    """
+    note_map = {
+        1: 71,
+        2: 72,
+    }
+    if deck not in note_map:
+        raise ValueError(f"Unsupported deck: {deck}")
+    return send_note(note_map[deck])
+
+
+def search_select(
+    query: str,
+    result_index: int = 1,
+    app_name: str = "VirtualDJ",
+) -> str:
+    """
+    Search in VirtualDJ, then select a result index.
+    """
+    search_msg = search_library(query=query, app_name=app_name)
+    select_msg = select_result(result_index=result_index, app_name=app_name)
+    return f"{search_msg}; {select_msg}"
+
+
+def search_load(
+    query: str,
+    deck: int,
+    result_index: int = 1,
+    app_name: str = "VirtualDJ",
+) -> str:
+    """
+    Search, select result, and load to deck.
+    """
+    select_msg = search_select(query=query, result_index=result_index, app_name=app_name)
+    load_msg = load_deck(deck)
+    return f"{select_msg}; {load_msg}"

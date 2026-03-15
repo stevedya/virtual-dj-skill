@@ -239,6 +239,64 @@ Notes:
 
 ---
 
+## List Results (From database.xml)
+
+Searches VirtualDJ's local database index and returns matching tracks.
+
+```bash
+uv run python virtualdj_skill.py list-results "daft punk" --limit 10
+```
+
+Optional database path:
+
+```bash
+uv run python virtualdj_skill.py list-results "house" --database ~/Documents/VirtualDJ/database.xml
+```
+
+---
+
+## Select Search Result Row
+
+Select result row by 1-based index in the active browser list.
+
+```bash
+uv run python virtualdj_skill.py select-result 3
+```
+
+---
+
+## Load Selected Track to Deck
+
+```bash
+uv run python virtualdj_skill.py load-deck --deck 1
+uv run python virtualdj_skill.py load-deck --deck 2
+```
+
+VirtualDJ mappings required:
+
+```
+0-BUTTON71 -> deck 1 load
+0-BUTTON72 -> deck 2 load
+```
+
+---
+
+## Search + Select
+
+```bash
+uv run python virtualdj_skill.py search-select "daft punk" --result 2
+```
+
+---
+
+## Search + Load
+
+```bash
+uv run python virtualdj_skill.py search-load "daft punk" --deck 1 --result 2
+```
+
+---
+
 ## Example Mix
 
 Start deck 2 and fade to it.

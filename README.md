@@ -13,6 +13,8 @@ The skill exposes simple commands such as:
 - `ping-note-range`
 - `ping-cc-range`
 - `search "query"`
+- `list-results "query"`
+- `search-load "query" --deck 1|2 --result N`
 
 These commands send **MIDI Control Change messages** to VirtualDJ through a **virtual MIDI port**, enabling AI-assisted DJ automation.
 
@@ -161,6 +163,8 @@ uv run python virtualdj_skill.py echo
 uv run python virtualdj_skill.py ping-note-range --start 60 --end 68
 uv run python virtualdj_skill.py ping-cc-range --start 1 --end 8 --value 64
 uv run python virtualdj_skill.py search "daft punk one more time"
+uv run python virtualdj_skill.py list-results "daft punk" --limit 10
+uv run python virtualdj_skill.py search-load "daft punk" --deck 1 --result 2
 ```
 
 ---

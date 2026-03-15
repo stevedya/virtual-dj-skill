@@ -8,6 +8,10 @@ def _run_osascript(lines: list[str]) -> None:
     subprocess.run(cmd, check=True)
 
 
+def _escaped(value: str) -> str:
+    return value.replace("\\", "\\\\").replace('"', '\\"')
+
+
 def virtualdj_search(
     query: str,
     app_name: str = "VirtualDJ",
@@ -23,9 +27,8 @@ def virtualdj_search(
     if not safe_query:
         raise ValueError("Search query cannot be empty.")
 
-    # Escape quote/backslash for AppleScript string literals.
-    escaped_query = safe_query.replace("\\", "\\\\").replace('"', '\\"')
-    escaped_app = app_name.replace("\\", "\\\\").replace('"', '\\"')
+    escaped_query = _escaped(safe_query)
+    escaped_app = _escaped(app_name)
 
     lines = [
         f'tell application "{escaped_app}" to activate',
@@ -56,3 +59,45 @@ def virtualdj_search(
         f'Sent search query "{safe_query}" to {app_name} '
         f"(shortcut={'on' if open_search_shortcut else 'off'}, submit={'on' if submit else 'off'})"
     )
+
+
+def virtualdj_select_result(
+    result_index: int,
+    app_name: str = "VirtualDJ",
+    reset_to_top: bool = True,
+) -> str:
+    """
+    Select a result row in the current VirtualDJ browser list.
+
+    Result index is 1-based.
+    """
+    safe_index = int(result_index)
+    if safe_index < 1:
+        raise ValueError("Result index must be >= 1.")
+
+    escaped_app = _escaped(app_name)
+    lines = [
+        f'tell application "{escaped_app}" to activate',
+        "delay 0.10",
+        'tell application "System Events"',
+    ]
+
+    if reset_to_top:
+        lines.append("  key code 115")  # Home
+        lines.append("  delay 0.03")
+
+    for _ in range(safe_index - 1):
+        lines.append("  key code 125")  # Down arrow
+        lines.append("  delay 0.02")
+
+    lines.append("end tell")
+
+    try:
+        _run_osascript(lines)
+    except Exception as exc:
+        raise RuntimeError(
+            "Failed to move VirtualDJ browser selection. "
+            "Ensure Accessibility permissions are enabled."
+        ) from exc
+
+    return f"Selected result index {safe_index} in {app_name}"
