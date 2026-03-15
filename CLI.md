@@ -109,6 +109,30 @@ VirtualDJ mapping
 
 ---
 
+## Quick Crossfader Presets
+
+Useful while testing transitions.
+
+Left
+
+```bash
+uv run python virtualdj_skill.py crossfade-left
+```
+
+Center
+
+```bash
+uv run python virtualdj_skill.py crossfade-center
+```
+
+Right
+
+```bash
+uv run python virtualdj_skill.py crossfade-right
+```
+
+---
+
 ## Trigger Echo Effect
 
 ```bash
@@ -151,6 +175,26 @@ VirtualDJ may show
 
 ```
 0-SLIDER1
+```
+
+---
+
+## Ping Note Range (Button Discovery)
+
+Fire a range of note events so VirtualDJ shows multiple `0-BUTTONXX` controls.
+
+```bash
+uv run python virtualdj_skill.py ping-note-range --start 60 --end 68
+```
+
+---
+
+## Ping CC Range (Slider Discovery)
+
+Fire a range of CC events so VirtualDJ shows multiple slider controls.
+
+```bash
+uv run python virtualdj_skill.py ping-cc-range --start 1 --end 8 --value 64
 ```
 
 ---

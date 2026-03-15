@@ -3,8 +3,13 @@ import json
 
 from dj.commands import (
     crossfade,
+    crossfade_center,
+    crossfade_left,
+    crossfade_right,
     deck_play_pause,
     echo,
+    ping_cc_range,
+    ping_note_range,
     send_custom_cc,
     send_custom_note,
 )
@@ -25,6 +30,9 @@ def main() -> None:
 
     crossfade_parser = subparsers.add_parser("crossfade")
     crossfade_parser.add_argument("value", type=int)
+    subparsers.add_parser("crossfade-left")
+    subparsers.add_parser("crossfade-center")
+    subparsers.add_parser("crossfade-right")
 
     custom_cc_parser = subparsers.add_parser("send-custom-cc")
     custom_cc_parser.add_argument("control", type=int)
@@ -33,6 +41,15 @@ def main() -> None:
     custom_note_parser = subparsers.add_parser("send-custom-note")
     custom_note_parser.add_argument("note", type=int)
     custom_note_parser.add_argument("--velocity", type=int, default=127)
+
+    ping_notes_parser = subparsers.add_parser("ping-note-range")
+    ping_notes_parser.add_argument("--start", type=int, default=60)
+    ping_notes_parser.add_argument("--end", type=int, default=68)
+
+    ping_cc_parser = subparsers.add_parser("ping-cc-range")
+    ping_cc_parser.add_argument("--start", type=int, default=1)
+    ping_cc_parser.add_argument("--end", type=int, default=8)
+    ping_cc_parser.add_argument("--value", type=int, default=64)
 
     args = parser.parse_args()
 
@@ -46,12 +63,22 @@ def main() -> None:
         result = deck_play_pause(args.deck)
     elif args.command == "crossfade":
         result = crossfade(args.value)
+    elif args.command == "crossfade-left":
+        result = crossfade_left()
+    elif args.command == "crossfade-center":
+        result = crossfade_center()
+    elif args.command == "crossfade-right":
+        result = crossfade_right()
     elif args.command == "echo":
         result = echo()
     elif args.command == "send-custom-cc":
         result = send_custom_cc(args.control, args.value)
     elif args.command == "send-custom-note":
         result = send_custom_note(args.note, args.velocity)
+    elif args.command == "ping-note-range":
+        result = ping_note_range(args.start, args.end)
+    elif args.command == "ping-cc-range":
+        result = ping_cc_range(args.start, args.end, args.value)
     else:
         raise RuntimeError(f"Unknown command: {args.command}")
 

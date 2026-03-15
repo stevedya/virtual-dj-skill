@@ -127,19 +127,30 @@ def send_note_test_range(start: int = 60, end: int = 68) -> str:
     return f"Sent NOTE test range {start}-{end} to '{selected_port}'"
 
 
-def send_cc_test_range(start: int = 1, end: int = 8) -> str:
+def send_cc_test_range(start: int = 1, end: int = 8, value: int = 64) -> str:
     """
     Send a range of CC messages for discovering SLIDER/ENCODER mappings.
     """
     selected_port = DEFAULT_MIDI_PORT
 
+    safe_value = clamp_midi_value(value)
+
     try:
         with open_port(selected_port) as port:
             for control in range(start, end + 1):
-                port.send(mido.Message("control_change", control=control, value=64))
+                port.send(
+                    mido.Message(
+                        "control_change",
+                        control=control,
+                        value=safe_value,
+                    )
+                )
     except Exception as exc:
         raise RuntimeError(
             f"Failed during CC discovery on '{selected_port}': {exc}"
         ) from exc
 
-    return f"Sent CC test range {start}-{end} to '{selected_port}'"
+    return (
+        f"Sent CC test range {start}-{end} value={safe_value} "
+        f"to '{selected_port}'"
+    )

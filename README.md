@@ -4,11 +4,13 @@ A lightweight Python skill that allows an AI agent (such as OpenClaw) to control
 
 The skill exposes simple commands such as:
 
-- `play`
-- `pause`
+- `play-pause --deck 1|2`
 - `crossfade`
 - `echo`
 - `send-custom-cc`
+- `send-custom-note`
+- `ping-note-range`
+- `ping-cc-range`
 
 These commands send **MIDI Control Change messages** to VirtualDJ through a **virtual MIDI port**, enabling AI-assisted DJ automation.
 
@@ -150,10 +152,11 @@ uv run python virtualdj_skill.py <command>
 Examples:
 
 ```
-uv run python virtualdj_skill.py play
-uv run python virtualdj_skill.py pause
+uv run python virtualdj_skill.py play-pause --deck 1
 uv run python virtualdj_skill.py crossfade 64
 uv run python virtualdj_skill.py echo
+uv run python virtualdj_skill.py ping-note-range --start 60 --end 68
+uv run python virtualdj_skill.py ping-cc-range --start 1 --end 8 --value 64
 ```
 
 ---

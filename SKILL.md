@@ -10,11 +10,12 @@ metadata: {"clawdbot":{"emoji":"💿","requires":{"bins":["python"],"env":["VIRT
 
 It can be used for simple DJ automation tasks such as:
 
-- play
-- pause
+- play/pause toggle
 - crossfade
 - echo
 - sending custom MIDI CC messages
+- sending custom MIDI note messages
+- pinging key ranges for mapping discovery
 - listing available MIDI outputs
 - testing MIDI connectivity
 
@@ -100,23 +101,13 @@ Attempts to open the configured MIDI port to verify connectivity.
 
 ---
 
-### Play
+### Play/Pause toggle
 
 ```bash
-uv run python virtualdj_skill.py play
+uv run python virtualdj_skill.py play-pause --deck 1
 ```
 
-Triggers the mapped play command.
-
----
-
-### Pause
-
-```bash
-uv run python virtualdj_skill.py pause
-```
-
-Triggers the mapped pause command.
+Toggles playback for the selected deck.
 
 ---
 
@@ -160,6 +151,36 @@ Useful for testing mappings before creating dedicated commands.
 
 ---
 
+### Send custom MIDI note
+
+```bash
+uv run python virtualdj_skill.py send-custom-note 60 --velocity 127
+```
+
+Sends an arbitrary MIDI note message for button mapping tests.
+
+---
+
+### Ping note range (mapping discovery)
+
+```bash
+uv run python virtualdj_skill.py ping-note-range --start 60 --end 68
+```
+
+Sends a range of notes so VirtualDJ exposes multiple `BUTTON` keys quickly.
+
+---
+
+### Ping CC range (mapping discovery)
+
+```bash
+uv run python virtualdj_skill.py ping-cc-range --start 1 --end 8 --value 64
+```
+
+Sends a range of CC controls so VirtualDJ exposes multiple slider/encoder keys.
+
+---
+
 ## Example VirtualDJ MIDI Mappings
 
 Inside VirtualDJ → Settings → Controllers, you can map incoming MIDI controls.
@@ -167,10 +188,10 @@ Inside VirtualDJ → Settings → Controllers, you can map incoming MIDI control
 Example mappings:
 
 ```
-CC1 -> deck 1 play
-CC2 -> deck 1 pause
-CC3 -> crossfader
-CC4 -> effect_active 'echo'
+0-BUTTON60 -> deck 1 play_pause
+0-BUTTON61 -> deck 2 play_pause
+0-SLIDER1 -> crossfader
+0-BUTTON62 -> effect_active 'echo'
 ```
 
 These correspond to the commands implemented in the skill.
