@@ -209,3 +209,13 @@ def add_to_automix_next() -> str:
     BUTTON74 -> automix_add_next
     """
     return send_note(74)
+
+
+def mix_next() -> str:
+    """
+    Trigger immediate mix to next track.
+
+    VirtualDJ mapping example:
+    BUTTON76 -> mix_next
+    """
+    return send_note(76)

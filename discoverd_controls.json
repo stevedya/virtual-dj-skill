@@ -48,7 +48,7 @@
     "0-BUTTON76": {
       "source": "note_on 76",
       "type": "button",
-      "suggested_action": "unused (available)"
+      "suggested_action": "mix_next"
     },
     "0-SLIDER1": {
       "source": "cc 1",

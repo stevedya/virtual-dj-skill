@@ -262,7 +262,6 @@ uv run python virtualdj_skill.py search-load "daft punk" --deck 1 --result 2
 
 ---
 
-<<<<<<< HEAD
 ## Multi-Step Mix Recipes
 
 Use these for predictable transition workflows.
@@ -295,13 +294,13 @@ uv run python virtualdj_skill.py crossfade-auto
 
 Tip: `play-pause` is a toggle. If deck 2 is already playing, this command will pause it.
 
-=======
 ### Queue actions
 
 ```bash
 uv run python virtualdj_skill.py add-to-sidelist
 uv run python virtualdj_skill.py automix-start
 uv run python virtualdj_skill.py automix-add-next
+uv run python virtualdj_skill.py mix-next
 ```
 
 Requires VirtualDJ mapping:
@@ -310,10 +309,8 @@ Requires VirtualDJ mapping:
 0-BUTTON73 -> sidelist_add
 0-BUTTON74 -> automix_add_next
 0-BUTTON75 -> automix
-0-BUTTON76 -> unused (available)
+0-BUTTON76 -> mix_next
 ```
-
->>>>>>> refs/remotes/origin/main
 ---
 
 ## Example VirtualDJ MIDI Mappings
@@ -333,7 +330,7 @@ Example mappings:
 0-BUTTON73 -> sidelist_add
 0-BUTTON74 -> automix_add_next
 0-BUTTON75 -> automix
-0-BUTTON76 -> unused (available)
+0-BUTTON76 -> mix_next
 ```
 
 These correspond to the commands implemented in the skill.

@@ -18,6 +18,7 @@ The skill exposes simple commands such as:
 - `add-to-sidelist`
 - `automix-start`
 - `automix-add-next`
+- `mix-next`
 
 These commands send **MIDI Control Change messages** to VirtualDJ through a **virtual MIDI port**, enabling AI-assisted DJ automation.
 
@@ -171,6 +172,7 @@ uv run python virtualdj_skill.py search-load "daft punk" --deck 1 --result 2
 uv run python virtualdj_skill.py add-to-sidelist
 uv run python virtualdj_skill.py automix-start
 uv run python virtualdj_skill.py automix-add-next
+uv run python virtualdj_skill.py mix-next
 ```
 
 ---

@@ -13,6 +13,7 @@ from dj.commands import (
     echo,
     list_results,
     load_deck,
+    mix_next,
     ping_cc_range,
     ping_note_range,
     search_library,
@@ -37,6 +38,7 @@ def main() -> None:
     subparsers.add_parser("add-to-sidelist")
     subparsers.add_parser("automix-start")
     subparsers.add_parser("automix-add-next")
+    subparsers.add_parser("mix-next")
 
     play_pause_parser = subparsers.add_parser("play-pause")
     play_pause_parser.add_argument("--deck", type=int, required=True, choices=[1, 2])
@@ -123,6 +125,8 @@ def main() -> None:
         result = start_automix()
     elif args.command == "automix-add-next":
         result = add_to_automix_next()
+    elif args.command == "mix-next":
+        result = mix_next()
     elif args.command == "send-custom-cc":
         result = send_custom_cc(args.control, args.value)
     elif args.command == "send-custom-note":
