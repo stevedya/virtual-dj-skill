@@ -1,0 +1,34 @@
+{
+  "inputs": {
+    "0-BUTTON60": {
+      "source": "note_on 60",
+      "type": "button",
+      "suggested_action": "deck 1 play_pause"
+    },
+    "0-BUTTON61": {
+      "source": "note_on 61",
+      "type": "button",
+      "suggested_action": "effect_active 'echo'"
+    },
+    "0-SLIDER1": {
+      "source": "cc 1",
+      "type": "slider",
+      "suggested_action": "crossfader"
+    },
+    "0-SLIDER2": {
+      "source": "cc 2",
+      "type": "slider",
+      "suggested_action": "deck 1 volume"
+    },
+    "0-JOG1": {
+      "source": "cc or relative input",
+      "type": "jog",
+      "suggested_action": "nudge +1%"
+    },
+    "0-ENCODER1": {
+      "source": "cc or relative input",
+      "type": "encoder",
+      "suggested_action": "browser_scroll +1"
+    }
+  }
+}

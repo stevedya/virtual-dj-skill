@@ -1,45 +1,53 @@
-from dj.midi import send_cc
+from dj.midi import send_cc, send_note
 
 
-def play() -> str:
+def deck_play_pause(deck: int) -> str:
     """
-    Trigger play.
-    VirtualDJ mapping example:
-    CC1 -> deck 1 play
-    """
-    return send_cc(1)
+    Toggle play/pause for a deck.
 
+    VirtualDJ mapping:
+    BUTTON60 -> deck 1 play_pause
+    BUTTON61 -> deck 2 play_pause
+    """
+    note_map = {
+        1: 60,
+        2: 61,
+    }
 
-def pause() -> str:
-    """
-    Trigger pause.
-    VirtualDJ mapping example:
-    CC2 -> deck 1 pause
-    """
-    return send_cc(2)
+    if deck not in note_map:
+        raise ValueError(f"Unsupported deck: {deck}")
+
+    return send_note(note_map[deck])
 
 
 def crossfade(value: int) -> str:
     """
     Set the crossfader position from 0-127.
+
     VirtualDJ mapping example:
-    CC3 -> crossfader
+    SLIDER1 -> crossfader
     """
-    return send_cc(3, value)
+    return send_cc(1, value)
 
 
 def echo() -> str:
     """
-    Trigger an echo effect.
-    VirtualDJ mapping example:
-    CC4 -> effect_active 'echo'
+    Trigger an echo-related button action.
+
+    Update the mapped note if you assign echo to a different VirtualDJ button.
     """
-    return send_cc(4)
+    return send_note(62)
+
+
+def send_custom_note(note: int, velocity: int = 127) -> str:
+    """
+    Send an arbitrary MIDI note.
+    """
+    return send_note(note, velocity)
 
 
 def send_custom_cc(control: int, value: int = 127) -> str:
     """
     Send an arbitrary MIDI CC message.
-    Useful for experimenting before dedicated commands are added.
     """
     return send_cc(control, value)

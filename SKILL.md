@@ -182,3 +182,12 @@ These correspond to the commands implemented in the skill.
 - MIDI values are clamped to the valid range of **0–127**.
 - The skill currently sends **MIDI Control Change messages only**.
 - Additional commands can be added easily in `dj/commands.py`.
+
+# Mapping Notes
+
+## 2026-03-14
+- note_on 60 appears in VirtualDJ as 0-BUTTON60
+- note_on 61 appears in VirtualDJ as 0-BUTTON61
+- cc 1 appears as 0-SLIDER1
+- cc 2 appears as 0-SLIDER2
+- VirtualDJ normalizes raw MIDI into internal control names for this generic device

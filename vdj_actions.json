@@ -1,0 +1,39 @@
+{
+  "transport": [
+    "play",
+    "pause",
+    "play_pause",
+    "stop",
+    "cue_stop",
+    "goto_cue"
+  ],
+  "mixing": [
+    "crossfader",
+    "volume",
+    "gain",
+    "eq_low",
+    "eq_mid",
+    "eq_high"
+  ],
+  "beat_and_loop": [
+    "sync",
+    "loop",
+    "loop_roll",
+    "beatjump"
+  ],
+  "effects": [
+    "effect_active",
+    "effect_select",
+    "effect_slider"
+  ],
+  "deck": [
+    "load",
+    "eject",
+    "clone_deck"
+  ],
+  "browser": [
+    "browser_scroll",
+    "browser_enter",
+    "browser_window"
+  ]
+}
