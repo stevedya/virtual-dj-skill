@@ -12,6 +12,7 @@ It can be used for simple DJ automation tasks such as:
 
 - play/pause toggle
 - crossfade
+- crossfade auto
 - echo
 - sending custom MIDI CC messages
 - sending custom MIDI note messages
@@ -129,6 +130,16 @@ Examples:
 
 ---
 
+### Crossfade auto
+
+```bash
+uv run python virtualdj_skill.py crossfade-auto
+```
+
+Triggers a dedicated button for VirtualDJ's automatic crossfade action.
+
+---
+
 ### Echo effect
 
 ```bash
@@ -191,6 +202,7 @@ Example mappings:
 0-BUTTON60 -> deck 1 play_pause
 0-BUTTON61 -> deck 2 play_pause
 0-SLIDER1 -> crossfader
+0-BUTTON63 -> crossfader_auto
 0-BUTTON62 -> effect_active 'echo'
 ```
 
@@ -201,7 +213,7 @@ These correspond to the commands implemented in the skill.
 ## Notes
 
 - MIDI values are clamped to the valid range of **0–127**.
-- The skill currently sends **MIDI Control Change messages only**.
+- The skill sends **MIDI note** and **MIDI Control Change** messages.
 - Additional commands can be added easily in `dj/commands.py`.
 
 # Mapping Notes

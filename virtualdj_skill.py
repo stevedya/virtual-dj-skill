@@ -3,6 +3,7 @@ import json
 
 from dj.commands import (
     crossfade,
+    crossfade_auto,
     crossfade_center,
     crossfade_left,
     crossfade_right,
@@ -33,6 +34,7 @@ def main() -> None:
     subparsers.add_parser("crossfade-left")
     subparsers.add_parser("crossfade-center")
     subparsers.add_parser("crossfade-right")
+    subparsers.add_parser("crossfade-auto")
 
     custom_cc_parser = subparsers.add_parser("send-custom-cc")
     custom_cc_parser.add_argument("control", type=int)
@@ -69,6 +71,8 @@ def main() -> None:
         result = crossfade_center()
     elif args.command == "crossfade-right":
         result = crossfade_right()
+    elif args.command == "crossfade-auto":
+        result = crossfade_auto()
     elif args.command == "echo":
         result = echo()
     elif args.command == "send-custom-cc":

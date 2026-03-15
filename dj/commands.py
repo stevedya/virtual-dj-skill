@@ -45,6 +45,16 @@ def crossfade_right() -> str:
     return crossfade(127)
 
 
+def crossfade_auto() -> str:
+    """
+    Trigger VirtualDJ automatic crossfade.
+
+    VirtualDJ mapping example:
+    BUTTON63 -> crossfader_auto
+    """
+    return send_note(63)
+
+
 def echo() -> str:
     """
     Trigger an echo-related button action.

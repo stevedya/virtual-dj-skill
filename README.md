@@ -6,6 +6,7 @@ The skill exposes simple commands such as:
 
 - `play-pause --deck 1|2`
 - `crossfade`
+- `crossfade-auto`
 - `echo`
 - `send-custom-cc`
 - `send-custom-note`
@@ -154,6 +155,7 @@ Examples:
 ```
 uv run python virtualdj_skill.py play-pause --deck 1
 uv run python virtualdj_skill.py crossfade 64
+uv run python virtualdj_skill.py crossfade-auto
 uv run python virtualdj_skill.py echo
 uv run python virtualdj_skill.py ping-note-range --start 60 --end 68
 uv run python virtualdj_skill.py ping-cc-range --start 1 --end 8 --value 64

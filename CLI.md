@@ -133,6 +133,22 @@ uv run python virtualdj_skill.py crossfade-right
 
 ---
 
+## Auto Crossfade
+
+Trigger VirtualDJ's automatic crossfade action.
+
+```bash
+uv run python virtualdj_skill.py crossfade-auto
+```
+
+VirtualDJ mapping
+
+```
+0-BUTTON63 -> crossfader_auto
+```
+
+---
+
 ## Trigger Echo Effect
 
 ```bash
