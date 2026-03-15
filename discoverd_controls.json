@@ -8,7 +8,17 @@
     "0-BUTTON61": {
       "source": "note_on 61",
       "type": "button",
+      "suggested_action": "deck 2 play_pause"
+    },
+    "0-BUTTON62": {
+      "source": "note_on 62",
+      "type": "button",
       "suggested_action": "effect_active 'echo'"
+    },
+    "0-BUTTON63": {
+      "source": "note_on 63",
+      "type": "button",
+      "suggested_action": "crossfader_auto"
     },
     "0-SLIDER1": {
       "source": "cc 1",
@@ -21,14 +31,14 @@
       "suggested_action": "deck 1 volume"
     },
     "0-JOG1": {
-      "source": "cc or relative input",
+      "source": "cc 1 alias",
       "type": "jog",
-      "suggested_action": "nudge +1%"
+      "suggested_action": "optional (ignore for crossfader mapping)"
     },
     "0-ENCODER1": {
-      "source": "cc or relative input",
+      "source": "cc 1 alias",
       "type": "encoder",
-      "suggested_action": "browser_scroll +1"
+      "suggested_action": "optional (ignore for crossfader mapping)"
     }
   }
 }

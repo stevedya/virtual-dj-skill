@@ -1,4 +1,5 @@
 from dj.midi import send_cc, send_cc_test_range, send_note, send_note_test_range
+from dj.keyboard import virtualdj_search
 
 
 def deck_play_pause(deck: int) -> str:
@@ -90,3 +91,20 @@ def ping_cc_range(start: int = 1, end: int = 8, value: int = 64) -> str:
     Send a CC range to discover VirtualDJ SLIDER/ENCODER mappings.
     """
     return send_cc_test_range(start, end, value)
+
+
+def search_library(
+    query: str,
+    app_name: str = "VirtualDJ",
+    no_shortcut: bool = False,
+    no_submit: bool = False,
+) -> str:
+    """
+    Send a typed search query to the VirtualDJ browser.
+    """
+    return virtualdj_search(
+        query=query,
+        app_name=app_name,
+        open_search_shortcut=not no_shortcut,
+        submit=not no_submit,
+    )

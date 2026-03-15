@@ -215,6 +215,30 @@ uv run python virtualdj_skill.py ping-cc-range --start 1 --end 8 --value 64
 
 ---
 
+## Search Library (Keyboard Automation)
+
+Type text into VirtualDJ search.
+
+```bash
+uv run python virtualdj_skill.py search "daft punk one more time"
+```
+
+Options:
+
+```bash
+uv run python virtualdj_skill.py search "disco" --no-submit
+uv run python virtualdj_skill.py search "house" --no-shortcut
+uv run python virtualdj_skill.py search "drum and bass" --app "VirtualDJ"
+```
+
+Notes:
+
+- This command uses macOS `osascript` keyboard events.
+- Grant Accessibility permissions to your terminal app.
+- VirtualDJ should be running.
+
+---
+
 ## Example Mix
 
 Start deck 2 and fade to it.

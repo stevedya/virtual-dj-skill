@@ -17,6 +17,7 @@ It can be used for simple DJ automation tasks such as:
 - sending custom MIDI CC messages
 - sending custom MIDI note messages
 - pinging key ranges for mapping discovery
+- searching library text (macOS keyboard automation)
 - listing available MIDI outputs
 - testing MIDI connectivity
 
@@ -192,6 +193,24 @@ Sends a range of CC controls so VirtualDJ exposes multiple slider/encoder keys.
 
 ---
 
+### Search library text
+
+```bash
+uv run python virtualdj_skill.py search "daft punk one more time"
+```
+
+Sends keyboard input to VirtualDJ search using macOS automation.
+
+Options:
+
+```bash
+uv run python virtualdj_skill.py search "disco" --no-submit
+uv run python virtualdj_skill.py search "house" --no-shortcut
+uv run python virtualdj_skill.py search "drum and bass" --app "VirtualDJ"
+```
+
+---
+
 ## Example VirtualDJ MIDI Mappings
 
 Inside VirtualDJ → Settings → Controllers, you can map incoming MIDI controls.
@@ -214,6 +233,7 @@ These correspond to the commands implemented in the skill.
 
 - MIDI values are clamped to the valid range of **0–127**.
 - The skill sends **MIDI note** and **MIDI Control Change** messages.
+- `search` requires macOS Accessibility permissions for the terminal app.
 - Additional commands can be added easily in `dj/commands.py`.
 
 # Mapping Notes

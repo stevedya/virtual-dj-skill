@@ -11,6 +11,7 @@ from dj.commands import (
     echo,
     ping_cc_range,
     ping_note_range,
+    search_library,
     send_custom_cc,
     send_custom_note,
 )
@@ -53,6 +54,12 @@ def main() -> None:
     ping_cc_parser.add_argument("--end", type=int, default=8)
     ping_cc_parser.add_argument("--value", type=int, default=64)
 
+    search_parser = subparsers.add_parser("search")
+    search_parser.add_argument("query", type=str)
+    search_parser.add_argument("--app", type=str, default="VirtualDJ")
+    search_parser.add_argument("--no-shortcut", action="store_true")
+    search_parser.add_argument("--no-submit", action="store_true")
+
     args = parser.parse_args()
 
     if args.command == "healthcheck":
@@ -83,6 +90,13 @@ def main() -> None:
         result = ping_note_range(args.start, args.end)
     elif args.command == "ping-cc-range":
         result = ping_cc_range(args.start, args.end, args.value)
+    elif args.command == "search":
+        result = search_library(
+            args.query,
+            app_name=args.app,
+            no_shortcut=args.no_shortcut,
+            no_submit=args.no_submit,
+        )
     else:
         raise RuntimeError(f"Unknown command: {args.command}")
 
